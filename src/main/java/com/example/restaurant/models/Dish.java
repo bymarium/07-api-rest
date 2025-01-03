@@ -1,5 +1,6 @@
 package com.example.restaurant.models;
 
+import com.example.restaurant.constants.Type;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class Dish {
 	private String name;
 	private String description;
 	private Float price;
+	private String dishType;
 
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
@@ -36,6 +38,7 @@ public class Dish {
 		this.name = name;
 		this.description = description;
 		this.price = price;
+		this.dishType = Type.COMMON.getName();
 	}
 
 	public Dish() {
