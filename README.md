@@ -38,5 +38,4 @@ Para empezar, estructuraremos el proyecto con estas consideraciones:
 Patrones de diseño:
 
 - Singleton para manejar el repositorio.
-- Factory para la creación de productos.
 - DTO para separar las entidades de dominio de los datos de respuesta o petición.
