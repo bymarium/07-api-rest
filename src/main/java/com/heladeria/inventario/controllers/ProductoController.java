@@ -1,12 +1,16 @@
 package com.heladeria.inventario.controllers;
 
+import com.heladeria.inventario.dto.ProductoRequestDTO;
+import com.heladeria.inventario.dto.ProductoResponseDTO;
 import com.heladeria.inventario.models.Producto;
 import com.heladeria.inventario.services.ProductoService;
+import com.heladeria.inventario.utils.DtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -20,29 +24,42 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<String> agregarProducto(@RequestBody Producto producto){
+    public ResponseEntity<String> agregarProducto(@RequestBody ProductoRequestDTO productoRequest){
+        Producto producto = new Producto(
+                productoRequest.getNombre(),
+                productoRequest.getCategoria(),
+                productoRequest.getCantidad()
+        );
         servicio.agregarProducto(producto);
         return ResponseEntity.ok("Producto agregado exitosamente.");
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerProducto(@PathVariable Long id){
-    return servicio.obtenerProducto(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ProductoResponseDTO> obtenerProducto(@PathVariable Long id){
+        return servicio.obtenerProducto(id)
+                .map(producto -> ResponseEntity.ok(DtoConverter.convertToResponseDTO(producto)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Producto>> listarProductos(){
-        return ResponseEntity.ok(servicio.listarProductos());
+    public ResponseEntity<List<ProductoResponseDTO>> listarProductos(){
+        List<Producto> productos = servicio.listarProductos();
+        List<ProductoResponseDTO> response = productos.stream()
+                .map(DtoConverter::convertToResponseDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> actualizarProducto(@PathVariable Long id, @RequestBody Producto producto){
-        try{
-            Producto productoActualizado = servicio.actualizarProducto(id, producto);
-            return ResponseEntity.ok("Se ha actualizado exitosamente el producto");
-        }catch (RuntimeException e){
+    public ResponseEntity<ProductoResponseDTO> actualizarProducto(@PathVariable Long id, @RequestBody ProductoRequestDTO productoRequest) {
+        try {
+            Producto actualizado = servicio.actualizarProducto(id, new Producto(
+                    productoRequest.getNombre(),
+                    productoRequest.getCategoria(),
+                    productoRequest.getCantidad()
+            ));
+            return ResponseEntity.ok(DtoConverter.convertToResponseDTO(actualizado));
+        } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -52,5 +69,6 @@ public class ProductoController {
         servicio.eliminarProducto(id);
         return ResponseEntity.noContent().build();
     }
+
 
 }

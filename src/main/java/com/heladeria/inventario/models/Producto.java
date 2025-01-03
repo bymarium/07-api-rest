@@ -33,4 +33,9 @@ public class Producto {
     }
 
 
+    public Producto(String nombre, String categoria, Integer cantidad) {
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.cantidad = cantidad;
+    }
 }
