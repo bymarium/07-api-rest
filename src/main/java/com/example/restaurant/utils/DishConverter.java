@@ -2,6 +2,7 @@ package com.example.restaurant.utils;
 
 import com.example.restaurant.dtos.DishDTO;
 import com.example.restaurant.models.Dish;
+import com.example.restaurant.models.Menu;
 
 public class DishConverter {
 	public static DishDTO convertEntityToDto(Dish dish) {
@@ -18,6 +19,9 @@ public class DishConverter {
 		dish.setName(dishDTO.getName());
 		dish.setDescription(dishDTO.getDescription());
 		dish.setPrice(dishDTO.getPrice());
+		Menu menu = new Menu();
+		menu.setId(dishDTO.getMenuId());
+		dish.setMenu(menu);
 		return dish;
 	}
 }

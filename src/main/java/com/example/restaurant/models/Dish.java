@@ -1,6 +1,7 @@
 package com.example.restaurant.models;
 
 import com.example.restaurant.constants.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,13 +25,15 @@ public class Dish {
 	private String name;
 	private String description;
 	private Float price;
-	private String dishType;
+	private String dishType = Type.COMMON.getName();
 
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
+	@JsonIgnore
 	private Menu menu;
 
 	@OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<OrderDetail> orderDetails;
 
 	public Dish(Long id, String name, String description, Float price) {
@@ -38,7 +41,6 @@ public class Dish {
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.dishType = Type.COMMON.getName();
 	}
 
 	public Dish() {
