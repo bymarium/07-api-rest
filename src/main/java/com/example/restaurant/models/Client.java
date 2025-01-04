@@ -22,7 +22,7 @@ public class Client {
 	private String name;
 	private String lastName;
 	private String email;
-	private String userType;
+	private String userType = Type.COMMON.getName();
 
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Order> orders;
@@ -32,7 +32,6 @@ public class Client {
 		this.name = name;
 		this.lastName = lastName;
 		this.email = email;
-		this.userType = Type.COMMON.getName();
 	}
 
 	public Client() {
