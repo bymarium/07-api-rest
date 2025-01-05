@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Table(name = "dishes")
 public class Dish {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
