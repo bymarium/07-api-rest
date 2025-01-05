@@ -4,12 +4,12 @@ import com.example.restaurant.dtos.DishDTO;
 import com.example.restaurant.models.Dish;
 import com.example.restaurant.models.Menu;
 import com.example.restaurant.repositories.IDishRepository;
-import com.example.restaurant.services.interfaces.ICommandWithParameters;
+import com.example.restaurant.services.interfaces.ICommandModification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateDish implements ICommandWithParameters<Dish, Long, DishDTO> {
+public class UpdateDish implements ICommandModification<Dish, DishDTO> {
 	private final IDishRepository dishRepository;
 
 	@Autowired

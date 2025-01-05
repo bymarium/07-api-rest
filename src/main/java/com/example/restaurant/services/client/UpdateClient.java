@@ -3,12 +3,12 @@ package com.example.restaurant.services.client;
 import com.example.restaurant.dtos.ClientDTO;
 import com.example.restaurant.models.Client;
 import com.example.restaurant.repositories.IClientRepository;
-import com.example.restaurant.services.interfaces.ICommandWithParameters;
+import com.example.restaurant.services.interfaces.ICommandModification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateClient implements ICommandWithParameters<Client, Long, ClientDTO> {
+public class UpdateClient implements ICommandModification<Client, ClientDTO> {
 	private final IClientRepository clientRepository;
 
 	@Autowired

@@ -3,12 +3,12 @@ package com.example.restaurant.services.menu;
 import com.example.restaurant.dtos.MenuDTO;
 import com.example.restaurant.models.Menu;
 import com.example.restaurant.repositories.IMenuRepository;
-import com.example.restaurant.services.interfaces.ICommandWithParameters;
+import com.example.restaurant.services.interfaces.ICommandModification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateMenu implements ICommandWithParameters<Menu, Long, MenuDTO> {
+public class UpdateMenu implements ICommandModification<Menu, MenuDTO> {
 	private final IMenuRepository menuRepository;
 
 	@Autowired
