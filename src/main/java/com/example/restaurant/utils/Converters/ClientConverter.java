@@ -1,4 +1,4 @@
-package com.example.restaurant.utils;
+package com.example.restaurant.utils.Converters;
 
 import com.example.restaurant.dtos.ClientDTO;
 import com.example.restaurant.models.Client;

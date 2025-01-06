@@ -24,7 +24,7 @@ public class UpdateTypeClient implements IObserver {
 		Long clientId = order.getClient().getId();
 		Long count = orderRepository.countByClient_Id(clientId);
 
-		if (count > 10) {
+		if (count >= 10) {
 			order.getClient().setUserType(Type.FREQUENT.getName());
 			order.getClient().setAdjust(0.9762f);
 			clientRepository.save(order.getClient());

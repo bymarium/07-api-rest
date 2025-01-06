@@ -5,7 +5,7 @@ import com.example.restaurant.models.Order;
 import com.example.restaurant.models.OrderDetail;
 import com.example.restaurant.repositories.IOrderRepository;
 import com.example.restaurant.services.interfaces.ICommandModification;
-import com.example.restaurant.utils.OrderDetailConverter;
+import com.example.restaurant.utils.Converters.OrderDetailConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

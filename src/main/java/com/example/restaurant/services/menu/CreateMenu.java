@@ -4,7 +4,7 @@ import com.example.restaurant.dtos.MenuDTO;
 import com.example.restaurant.models.Menu;
 import com.example.restaurant.repositories.IMenuRepository;
 import com.example.restaurant.services.interfaces.ICommandParametrized;
-import com.example.restaurant.utils.MenuConverter;
+import com.example.restaurant.utils.Converters.MenuConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

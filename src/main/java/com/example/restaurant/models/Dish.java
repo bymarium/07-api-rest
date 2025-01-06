@@ -48,4 +48,8 @@ public class Dish {
 
 	public Dish() {
 	}
+
+	public Float applyAdjust() {
+		return dishType.equals(Type.POPULAR.getName()) ? price * adjust : price;
+	}
 }

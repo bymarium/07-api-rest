@@ -6,7 +6,7 @@ import com.example.restaurant.models.Order;
 import com.example.restaurant.models.OrderDetail;
 import com.example.restaurant.repositories.IDishRepository;
 import com.example.restaurant.repositories.IOrderDetailRepository;
-import com.example.restaurant.utils.OrderDetailConverter;
+import com.example.restaurant.utils.Converters.OrderDetailConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +27,15 @@ public class CreateOrderDetail {
 		return orderDetails.stream().map(orderDetailDTO -> {
 			OrderDetail orderDetail = OrderDetailConverter.convertDtoToEntity(orderDetailDTO);
 			Dish dish = dishRepository.findById(orderDetailDTO.getDishId()).orElseThrow(() -> new RuntimeException("Plato con id " + orderDetailDTO.getDishId() + " no encontrado"));
+
 			Order order = new Order();
 			order.setId(orderId);
 			orderDetail.setOrder(order);
-			orderDetail.setUnitPrice(dish.getPrice());
-			orderDetail.setSubTotal(dish.getPrice() * orderDetailDTO.getQuantity());
+
+			Float priceAdjust = dish.applyAdjust();
+			orderDetail.setUnitPrice(priceAdjust);
+			orderDetail.setSubTotal(priceAdjust * orderDetailDTO.getQuantity());
+
 			return orderDetailRepository.save(orderDetail);
 		}).toList();
 	}

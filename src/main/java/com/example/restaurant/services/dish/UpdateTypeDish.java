@@ -28,7 +28,7 @@ public class UpdateTypeDish implements IObserver {
 			.map(orderDetail -> orderDetail.getDish().getId())
 			.forEach(dishId -> {
 				int totalQuantity = orderDetailRepository.findByDishId(dishId).stream().mapToInt(OrderDetail::getQuantity).sum();
-				if (totalQuantity > 100) {
+				if (totalQuantity >= 100) {
 					Dish dish = dishRepository.findById(dishId).get();
 					dish.setId(dishId);
 					dish.setDishType(Type.POPULAR.getName());

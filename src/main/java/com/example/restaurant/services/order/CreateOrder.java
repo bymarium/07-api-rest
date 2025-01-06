@@ -10,7 +10,9 @@ import com.example.restaurant.services.client.UpdateTypeClient;
 import com.example.restaurant.services.dish.UpdateTypeDish;
 import com.example.restaurant.services.interfaces.ICommandParametrized;
 import com.example.restaurant.services.orderdetail.CreateOrderDetail;
-import com.example.restaurant.utils.OrderConverter;
+import com.example.restaurant.utils.Converters.OrderConverter;
+import com.example.restaurant.utils.prices.CommonClient;
+import com.example.restaurant.utils.prices.FrequentClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +39,15 @@ public class CreateOrder extends Observable implements ICommandParametrized<Orde
 		Order newOrder = orderRepository.save(order);
 		List<OrderDetail> orderDetails = createOrderDetail.execute(orderDTO.getOrderDetails(), newOrder.getId());
 		Float totalPrice = (float) orderDetails.stream().mapToDouble(OrderDetail::getSubTotal).sum();
+
+		CommonClient commonClient = new CommonClient();
+		FrequentClient frequentClient = new FrequentClient();
+		commonClient.setNextHandler(frequentClient);
+
 		newOrder.setTotalPrice(totalPrice);
+
+		commonClient.handlerRequest(newOrder);
+
 		orderRepository.save(newOrder);
 		newOrder.setOrderDetails(orderDetails);
 		notifyObservers(newOrder);
