@@ -6,6 +6,8 @@ import com.example.restaurant.models.Order;
 import com.example.restaurant.models.OrderDetail;
 import com.example.restaurant.repositories.IClientRepository;
 import com.example.restaurant.repositories.IOrderRepository;
+import com.example.restaurant.services.client.UpdateTypeClient;
+import com.example.restaurant.services.dish.UpdateTypeDish;
 import com.example.restaurant.services.interfaces.ICommandParametrized;
 import com.example.restaurant.services.orderdetail.CreateOrderDetail;
 import com.example.restaurant.utils.OrderConverter;
@@ -14,15 +16,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CreateOrder implements ICommandParametrized<Order, OrderDTO> {
+public class CreateOrder extends Observable implements ICommandParametrized<Order, OrderDTO> {
 	private final IOrderRepository orderRepository;
 	private final CreateOrderDetail createOrderDetail;
 	private final IClientRepository clientRepository;
 
-	public CreateOrder(IOrderRepository orderRepository, CreateOrderDetail createOrderDetail, IClientRepository clientRepository) {
+	public CreateOrder(IOrderRepository orderRepository, CreateOrderDetail createOrderDetail, IClientRepository clientRepository, UpdateTypeClient updateTypeClient, UpdateTypeDish updateTypeDish) {
 		this.orderRepository = orderRepository;
 		this.createOrderDetail = createOrderDetail;
 		this.clientRepository = clientRepository;
+		this.addObserver(updateTypeDish);
+		this.addObserver(updateTypeClient);
 	}
 
 	@Override
@@ -35,6 +39,8 @@ public class CreateOrder implements ICommandParametrized<Order, OrderDTO> {
 		Float totalPrice = (float) orderDetails.stream().mapToDouble(OrderDetail::getSubTotal).sum();
 		newOrder.setTotalPrice(totalPrice);
 		orderRepository.save(newOrder);
+		newOrder.setOrderDetails(orderDetails);
+		notifyObservers(newOrder);
 		newOrder.setOrderDetails(orderDetails.stream().map(details -> {
 			details.setDish(null);
 			return details;

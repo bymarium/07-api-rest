@@ -28,6 +28,7 @@ public class Dish {
 	private String description;
 	private Float price;
 	private String dishType = Type.COMMON.getName();
+	private Float adjust = 1f;
 
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
