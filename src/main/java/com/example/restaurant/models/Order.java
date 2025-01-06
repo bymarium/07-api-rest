@@ -1,5 +1,6 @@
 package com.example.restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ public class Order {
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
+	@JsonIgnore
 	private Client client;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

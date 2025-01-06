@@ -1,6 +1,7 @@
 package com.example.restaurant.utils;
 
 import com.example.restaurant.dtos.OrderDTO;
+import com.example.restaurant.models.Client;
 import com.example.restaurant.models.Order;
 
 public class OrderConverter {
@@ -12,5 +13,14 @@ public class OrderConverter {
 				.map(OrderDetailConverter::convertEntityToDto)
 				.toList());
 		return orderDTO;
+	}
+
+	public static Order convertDtoToEntity(OrderDTO orderDTO) {
+		Order order = new Order();
+		Client client = new Client();
+		client.setId(orderDTO.getClientId());
+		order.setClient(client);
+		order.setDate(orderDTO.getDate());
+		return order;
 	}
 }

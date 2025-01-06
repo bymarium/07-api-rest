@@ -1,5 +1,6 @@
 package com.example.restaurant.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,17 +25,17 @@ public class OrderDetail {
 
 	@ManyToOne
 	@JoinColumn(name = "order_id")
+	@JsonIgnore
 	private Order order;
 
 	@ManyToOne
 	@JoinColumn(name = "dish_id")
 	private Dish dish;
 
-	public OrderDetail(Long id, Integer quantity, Float unitPrice, Float subTotal) {
+	public OrderDetail(Long id, Integer quantity, Float unitPrice) {
 		this.id = id;
 		this.quantity = quantity;
 		this.unitPrice = unitPrice;
-		this.subTotal = subTotal;
 	}
 
 	public OrderDetail() {
