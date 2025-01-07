@@ -32,7 +32,7 @@ public class Order {
 	@JsonIgnore
 	private Client client;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderDetail> orderDetails;
 
 	public Order(Long id, LocalDate date, Float totalPrice) {
