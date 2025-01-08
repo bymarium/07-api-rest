@@ -20,7 +20,6 @@ public class CreateDish implements ICommandParametrized<Dish, DishDTO> {
 	@Override
 	public Dish execute(DishDTO dishDTO) {
 		Dish dish = DishConverter.convertDtoToEntity(dishDTO);
-		dishRepository.save(dish);
-		return dish;
+		return dishRepository.save(dish);
 	}
 }
