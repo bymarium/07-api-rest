@@ -66,7 +66,6 @@ class ClientControllerTest {
 			new Client(3L, "Jinsei", "Usuga", "jinsei@gmail.com")
 		);
 	}
-
 	@Test
 	void createClient() {
 		when(mockCreateClient.execute(any(ClientDTO.class))).thenReturn(client);
