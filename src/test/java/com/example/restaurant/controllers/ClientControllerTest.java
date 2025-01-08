@@ -154,7 +154,6 @@ class ClientControllerTest {
 				assertEquals(client.getEmail(), responseClient.getEmail());
 			});
 
-
 		verify(mockUpdateClient).execute(anyLong(), any(ClientDTO.class));
 	}
 
@@ -165,7 +164,11 @@ class ClientControllerTest {
 		webTestClient.delete()
 			.uri("/api/clients/{clientId}", 1L)
 			.exchange()
-			.expectStatus().isOk();
+			.expectStatus().isOk()
+			.expectBody(MessageDTO.class)
+			.value(response -> {
+				assertEquals("Cliente eliminado exitosamente", response.getMessage());
+			});
 
 		verify(mockDeleteClient).execute(anyLong());
 	}
