@@ -7,8 +7,6 @@ import com.example.restaurant.repositories.IOrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -29,7 +27,7 @@ class UpdateTypeClientTest {
 
 	@Test
 	void update() {
-		Order order = new Order(1L, LocalDate.now(), 104f);
+		Order order = new Order(1L, 104f);
 		order.setClient(new Client(1L, "name", "lastName", "email"));
 
 		when(mockOrderRepository.countByClient_Id(order.getClient().getId())).thenReturn(11L);
@@ -42,7 +40,7 @@ class UpdateTypeClientTest {
 
 	@Test
 	void updateWhenNoCount() {
-		Order order = new Order(1L, LocalDate.now(), 104f);
+		Order order = new Order(1L, 104f);
 		order.setClient(new Client(1L, "name", "lastName", "email"));
 
 		when(mockOrderRepository.countByClient_Id(order.getClient().getId())).thenReturn(7L);
