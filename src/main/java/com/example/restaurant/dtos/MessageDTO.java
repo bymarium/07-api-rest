@@ -1,10 +1,12 @@
 package com.example.restaurant.dtos;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class MessageDTO {
 	private String message;
 	private Object details;
