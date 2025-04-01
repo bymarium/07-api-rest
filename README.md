@@ -171,7 +171,7 @@ public class Client {
     }
     ```
 
-#### **1.7 services/**
+#### **1.6 services/**
 - Contiene la lógica de negocio de la aplicación.
 - Se organiza en subcarpetas según la entidad a la que pertenece cada servicio.
 - Implementa los principios **SOLID** y varios **patrones de diseño** como:
@@ -196,33 +196,115 @@ public class ClientService {
 }
 ```
 
-#### **1.8 controllers/**
-- Contiene las clases que manejan las solicitudes HTTP y exponen endpoints.
-- Cada controlador usa `@RestController` y `@RequestMapping` para definir rutas de la API.
+#### **1.7 Controllers**
+- Contiene las clases que manejan las solicitudes HTTP y exponen los endpoints de la API.
+- Cada controlador usa `@RestController` y `@RequestMapping` para definir las rutas de la API.
+- Estos controladores interactúan con los servicios correspondientes y devuelven respuestas adecuadas a las solicitudes HTTP.
 
-Ejemplo de controlador (`ClientController.java`):
+**Ejemplo de controlador (ClientController.java):**
+
+Enlace al archivo: [ClientController.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/ClientController.java)
+
+Este controlador gestiona las operaciones CRUD (crear, obtener, actualizar y eliminar) para los clientes. Los métodos expuestos son:
+
+- **POST** `/api/clients`: Crea un nuevo cliente. Devuelve un mensaje de éxito junto con la información del cliente creado.
+- **GET** `/api/clients/{clientId}`: Obtiene la información de un cliente por su ID.
+- **GET** `/api/clients`: Obtiene la lista de todos los clientes.
+- **PUT** `/api/clients/{clientId}`: Actualiza la información de un cliente específico.
+- **DELETE** `/api/clients/{clientId}`: Elimina un cliente por su ID.
+
+**Ejemplo del controlador GlobalExceptionHandler.java:**
+
+Enlace al archivo: [GlobalExceptionHandler.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/GlobalExceptionHandler.java)
+
+El controlador `GlobalExceptionHandler` maneja excepciones globales en la aplicación. Usa `@RestControllerAdvice` para definir un controlador de excepciones globales. En este caso, se maneja específicamente la excepción `RuntimeException`. Cuando se lanza una `RuntimeException`, el manejador devuelve un objeto `MessageDTO` con un mensaje de error y un código HTTP 404 (Not Found).
+
+- **Manejo de excepciones:** Si ocurre una `RuntimeException`, el método `handleRuntimeException` captura la excepción y devuelve un mensaje con el texto de la excepción.
+  
+  ```java
+  @RestControllerAdvice
+  public class GlobalExceptionHandler {
+      @ExceptionHandler(RuntimeException.class)
+      @ResponseStatus(HttpStatus.NOT_FOUND)
+      public MessageDTO handleRuntimeException(RuntimeException ex) {
+          return new MessageDTO(ex.getMessage());
+      }
+  }
+  
+Este controlador garantiza que las excepciones no controladas sean manejadas de manera centralizada, proporcionando respuestas consistentes para los errores en toda la API.
+
+##### **Detalles de otros controladores**
+- [DishController.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/DishController.java): Maneja las operaciones CRUD para los platos del restaurante.
+- [MenuController.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/MenuController.java): Gestiona las operaciones CRUD para los menús del restaurante.
+- [OrderController.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/OrderController.java): Gestiona las operaciones CRUD para los pedidos del restaurante.
+
+Todos estos controladores siguen un patrón similar, asegurando que cada recurso (cliente, plato, menú, pedido) tenga sus propias rutas y métodos para interactuar con ellos
+
+#### **1.8 utils/**
+Esta carpeta contiene clases con métodos utilitarios reutilizables en varias partes del proyecto. Incluye:
+
+- **`converters/`**: Contiene clases encargadas de convertir objetos DTO (Data Transfer Object) en entidades del modelo de datos.
+- **`prices/`**: Implementa el patrón de diseño Chain of Responsibility para aplicar descuentos según el tipo de cliente.
+
+---
+
+##### **1.8.1 converters/**
+Las clases en esta carpeta permiten convertir objetos DTO a entidades del modelo de datos. Esto es útil para mantener la separación de responsabilidades y facilitar la manipulación de datos en el sistema.
+
+**Enlaces a los conversores:**
+- [ClientConverter.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/utils/Converters/ClientConverter.java)
+- [DishConverter.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/utils/Converters/DishConverter.java)
+- [MenuConverter.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/utils/Converters/MenuConverter.java)
+- [OrderConverter.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/utils/Converters/OrderConverter.java)
+- [OrderDetailConverter.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/utils/Converters/OrderDetailConverter.java)
+
+##### **1.8.2 prices/**
+Esta carpeta implementa el **patrón Chain of Responsibility** para aplicar descuentos en función del tipo de cliente. Se define una jerarquía de `Handlers` que procesan las solicitudes de descuento de manera encadenada.
+
+**Ejemplo de Implementación**
+**Clase Base: `Handler.java`**
 ```java
-@RestController
-@RequestMapping("/clients")
-public class ClientController {
-    @Autowired
-    private ClientService clientService;
+public abstract class Handler {
+    protected Handler nextHandler;
 
-    @GetMapping
-    public List<Client> getAllClients() {
-        return clientService.getAllClients();
+    public void setNextHandler(Handler nextHandler) {
+        this.nextHandler = nextHandler;
     }
 
-    @PostMapping
-    public Client createClient(@RequestBody Client client) {
-        return clientService.createClient(client);
+    public abstract void handlerRequest(Order order);
+}
+```
+**Explicación:**
+- `Handler` es una clase abstracta que define un manejador con una referencia a otro `Handler` (`nextHandler`).
+- La implementación concreta de `handlerRequest` se define en las subclases.
+
+**Manejador para Clientes Comunes: `CommonClient.java`**
+```java
+public class CommonClient extends Handler {
+    @Override
+    public void handlerRequest(Order order) {
+        if (nextHandler != null && !order.getClient().getUserType().equals(Type.COMMON.getName())) {
+            nextHandler.handlerRequest(order);
+        }
     }
 }
 ```
+**Explicación:**
+- Si el cliente no es de tipo `COMMON`, la solicitud pasa al siguiente manejador.
 
-#### **1.8 utils/**
-- Contiene clases con métodos utilitarios reutilizables en varias partes del proyecto.
-- Puede incluir validaciones, conversores de formato y otras funciones auxiliares.
+**Manejador para Clientes Frecuentes: `FrequentClient.java`**
+```java
+public class FrequentClient extends Handler {
+    @Override
+    public void handlerRequest(Order order) {
+        if (order.getClient().getUserType().equals(Type.FREQUENT.getName())) {
+            order.setTotalPrice(order.getTotalPrice() * order.getClient().getAdjust());
+        }
+    }
+}
+```
+**Explicación:**
+- Si el cliente es de tipo `FREQUENT`, se aplica un ajuste al precio total del pedido.
 
 ### **2. src/main/resources/**
 Contiene archivos de configuración y recursos estáticos:
