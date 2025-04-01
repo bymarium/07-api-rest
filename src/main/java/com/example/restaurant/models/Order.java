@@ -35,9 +35,8 @@ public class Order {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderDetail> orderDetails;
 
-	public Order(Long id, LocalDate date, Float totalPrice) {
+	public Order(Long id, Float totalPrice) {
 		this.id = id;
-		this.date = date;
 		this.totalPrice = totalPrice;
 	}
 

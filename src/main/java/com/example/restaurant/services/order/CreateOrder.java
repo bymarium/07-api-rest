@@ -51,10 +51,7 @@ public class CreateOrder extends Observable implements ICommandParametrized<Orde
 		orderRepository.save(newOrder);
 		newOrder.setOrderDetails(orderDetails);
 		notifyObservers(newOrder);
-		newOrder.setOrderDetails(orderDetails.stream().map(details -> {
-			details.setDish(null);
-			return details;
-		}).toList());
+
 		return newOrder;
 	}
 }

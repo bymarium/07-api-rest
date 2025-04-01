@@ -1,20 +1,18 @@
 package com.example.restaurant.controllers;
 
 import com.example.restaurant.dtos.MessageDTO;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@Hidden
+@RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<MessageDTO> handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageDTO(ex.getMessage()));
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<MessageDTO> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageDTO("Argumento inválido: " + ex.getMessage()));
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public MessageDTO handleRuntimeException(RuntimeException ex) {
+        return new MessageDTO(ex.getMessage());
     }
 }

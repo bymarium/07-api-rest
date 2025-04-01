@@ -20,7 +20,6 @@ public class CreateMenu implements ICommandParametrized<Menu, MenuDTO> {
 	@Override
 	public Menu execute(MenuDTO menuDTO) {
 		Menu menu = MenuConverter.convertDtoToEntity(menuDTO);
-		menuRepository.save(menu);
-		return menu;
+		return menuRepository.save(menu);
 	}
 }

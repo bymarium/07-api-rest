@@ -1,0 +1,212 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "com.example.restaurant.models.Order#getOrderDetails()",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "com.example.restaurant.models.Order",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1322970774 { 
+   	label=example
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_390647231 { 
+   	label=restaurant
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_1107683126 { 
+   	label=Order
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Order384064374XXXgetOrderDetails0[
+	label="+ getOrderDetails()"
+	style=filled
+	fillcolor=white
+	tooltip="Order
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_131425933 { 
+   	label=Observable
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Observable1643683874XXXnotifyObservers76453678[
+	label="+ notifyObservers()"
+	style=filled
+	fillcolor=white
+	tooltip="Observable
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_281611423 { 
+   	label=UpdateTypeDish
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   UpdateTypeDish85189386XXXupdate76453678[
+	label="+ update()"
+	style=filled
+	fillcolor=white
+	tooltip="UpdateTypeDish
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_409463422 { 
+   	label=CreateOrder
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   CreateOrder1643683874XXXexecute1298922449[
+	label="+ execute()"
+	style=filled
+	fillcolor=white
+	tooltip="CreateOrder
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_489335339 { 
+   	label=UpdateOrder
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   UpdateOrder1643683874XXXexecute2120616735[
+	label="+ execute()"
+	style=filled
+	fillcolor=white
+	tooltip="UpdateOrder
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_768348237 { 
+   	label=OrderController
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   OrderController1565709769XXXupdateOrder2120616735[
+	label="+ updateOrder()"
+	style=filled
+	fillcolor=white
+	tooltip="OrderController
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+'edges    
+CreateOrder1643683874XXXexecute1298922449 -> Observable1643683874XXXnotifyObservers76453678;
+Observable1643683874XXXnotifyObservers76453678 -> UpdateTypeDish85189386XXXupdate76453678;
+OrderController1565709769XXXupdateOrder2120616735 -> UpdateOrder1643683874XXXexecute2120616735;
+UpdateOrder1643683874XXXexecute2120616735 -> Order384064374XXXgetOrderDetails0;
+UpdateTypeDish85189386XXXupdate76453678 -> Order384064374XXXgetOrderDetails0;
+    
+}
+@enduml

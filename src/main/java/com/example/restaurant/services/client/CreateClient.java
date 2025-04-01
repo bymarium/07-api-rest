@@ -20,7 +20,6 @@ public class CreateClient implements ICommandParametrized<Client, ClientDTO> {
 	@Override
 	public Client execute(ClientDTO clientDTO) {
 		Client client = ClientConverter.convertDtoToEntity(clientDTO);
-		clientRepository.save(client);
-		return client;
+		return clientRepository.save(client);
 	}
 }

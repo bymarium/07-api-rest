@@ -8,7 +8,9 @@ import com.example.restaurant.services.dish.DeleteDish;
 import com.example.restaurant.services.dish.GetAllDishes;
 import com.example.restaurant.services.dish.GetDish;
 import com.example.restaurant.services.dish.UpdateDish;
-import org.springframework.http.ResponseEntity;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/dishes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DishController {
 	private final CreateDish createDish;
 	private final GetDish getDish;
@@ -38,30 +42,35 @@ public class DishController {
 	}
 
 	@PostMapping
-	public ResponseEntity<MessageDTO> createDish(@RequestBody DishDTO dishDTO) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public MessageDTO createDish(@RequestBody DishDTO dishDTO) {
 		Dish dish = createDish.execute(dishDTO);
-		return ResponseEntity.ok(new MessageDTO("Plato creado exitosamente", dish));
+		return new MessageDTO("Plato creado exitosamente", dish);
 	}
 
 	@GetMapping("/{dishId}")
-	public ResponseEntity<Dish> getDish(@PathVariable Long dishId) {
-		return ResponseEntity.ok(getDish.execute(dishId));
+	@ResponseStatus(HttpStatus.OK)
+	public Dish getDish(@PathVariable Long dishId) {
+		return getDish.execute(dishId);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Dish>> getAllDishes() {
-		return ResponseEntity.ok(getAllDishes.execute());
+	@ResponseStatus(HttpStatus.OK)
+	public List<Dish> getAllDishes() {
+		return getAllDishes.execute();
 	}
 
 	@PutMapping("/{dishId}")
-	public ResponseEntity<MessageDTO> updateDish(@PathVariable Long dishId, @RequestBody DishDTO dishDTO) {
+	@ResponseStatus(HttpStatus.OK)
+	public MessageDTO updateDish(@PathVariable Long dishId, @RequestBody DishDTO dishDTO) {
 		Dish dish = updateDish.execute(dishId, dishDTO);
-		return ResponseEntity.ok(new MessageDTO("Plato actualizado exitosamente", dish));
+		return new MessageDTO("Plato actualizado exitosamente", dish);
 	}
 
 	@DeleteMapping("/{dishId}")
-	public ResponseEntity<MessageDTO> deleteDish(@PathVariable Long dishId) {
+	@ResponseStatus(HttpStatus.OK)
+	public MessageDTO deleteDish(@PathVariable Long dishId) {
 		deleteDish.execute(dishId);
-		return ResponseEntity.ok(new MessageDTO("Plato eliminado exitosamente"));
+		return new MessageDTO("Plato eliminado exitosamente");
 	}
 }

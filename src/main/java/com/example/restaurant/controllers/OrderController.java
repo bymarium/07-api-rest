@@ -8,7 +8,8 @@ import com.example.restaurant.services.order.DeleteOrder;
 import com.example.restaurant.services.order.GetAllOrders;
 import com.example.restaurant.services.order.GetOrder;
 import com.example.restaurant.services.order.UpdateOrder;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
+@CrossOrigin(origins = "http://localhost:4200")
 public class OrderController {
 	private final CreateOrder createOrder;
 	private final GetOrder getOrder;
@@ -38,30 +41,35 @@ public class OrderController {
 	}
 
 	@PostMapping
-	public ResponseEntity<MessageDTO> createOrder(@RequestBody OrderDTO orderDTO) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public MessageDTO createOrder(@RequestBody OrderDTO orderDTO) {
 		Order order = createOrder.execute(orderDTO);
-		return ResponseEntity.ok(new MessageDTO("Pedido creado exitosamente", order));
+		return new MessageDTO("Pedido creado exitosamente", order);
 	}
 
 	@GetMapping("/{orderId}")
-	public ResponseEntity<Order> getOrder(@PathVariable Long orderId) {
-		return ResponseEntity.ok(getOrder.execute(orderId));
+	@ResponseStatus(HttpStatus.OK)
+	public Order getOrder(@PathVariable Long orderId) {
+		return getOrder.execute(orderId);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Order>> getAllOrders() {
-		return ResponseEntity.ok(getAllOrders.execute());
+	@ResponseStatus(HttpStatus.OK)
+	public List<Order> getAllOrders() {
+		return getAllOrders.execute();
 	}
 
 	@PutMapping("/{orderId}")
-	public ResponseEntity<MessageDTO> updateOrder(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
+	@ResponseStatus(HttpStatus.OK)
+	public MessageDTO updateOrder(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
 		Order order = updateOrder.execute(orderId, orderDTO);
-		return ResponseEntity.ok(new MessageDTO("Pedido actualizado exitosamente", order));
+		return new MessageDTO("Pedido actualizado exitosamente", order);
 	}
 
 	@DeleteMapping("/{orderId}")
-	public ResponseEntity<MessageDTO> deleteOrder(@PathVariable Long orderId) {
+	@ResponseStatus(HttpStatus.OK)
+	public MessageDTO deleteOrder(@PathVariable Long orderId) {
 		deleteOrder.execute(orderId);
-		return ResponseEntity.ok(new MessageDTO("Pedido eliminado exitosamente"));
+		return new MessageDTO("Pedido eliminado exitosamente");
 	}
 }

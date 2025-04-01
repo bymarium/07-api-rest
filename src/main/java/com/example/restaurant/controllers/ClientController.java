@@ -8,7 +8,8 @@ import com.example.restaurant.services.client.DeleteClient;
 import com.example.restaurant.services.client.GetAllClients;
 import com.example.restaurant.services.client.GetClient;
 import com.example.restaurant.services.client.UpdateClient;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/clients")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClientController {
 	private final CreateClient createClient;
 	private final GetClient getClient;
@@ -38,30 +41,35 @@ public class ClientController {
 	}
 
 	@PostMapping
-	public ResponseEntity<MessageDTO> createClient(@RequestBody ClientDTO clientDTO) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public MessageDTO createClient(@RequestBody ClientDTO clientDTO) {
 		Client client = createClient.execute(clientDTO);
-		return ResponseEntity.ok(new MessageDTO("Cliente creado exitosamente", client));
+		return new MessageDTO("Cliente creado exitosamente", client);
 	}
 
 	@GetMapping("/{clientId}")
-	public ResponseEntity<Client> getClient(@PathVariable Long clientId) {
-		return ResponseEntity.ok(getClient.execute(clientId));
+	@ResponseStatus(HttpStatus.OK)
+	public Client getClient(@PathVariable Long clientId) {
+		return getClient.execute(clientId);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Client>> getAllClients() {
-		return ResponseEntity.ok(getAllClients.execute());
+	@ResponseStatus(HttpStatus.OK)
+	public List<Client> getAllClients() {
+		return getAllClients.execute();
 	}
 
 	@PutMapping("/{clientId}")
-	public ResponseEntity<MessageDTO> updateClient(@PathVariable Long clientId, @RequestBody ClientDTO clientDTO) {
+	@ResponseStatus(HttpStatus.OK)
+	public MessageDTO updateClient(@PathVariable Long clientId, @RequestBody ClientDTO clientDTO) {
 		Client client = updateClient.execute(clientId, clientDTO);
-		return ResponseEntity.ok(new MessageDTO("Cliente actualizado exitosamente", client));
+		return new MessageDTO("Cliente actualizado exitosamente", client);
 	}
 
 	@DeleteMapping("/{clientId}")
-	public ResponseEntity<MessageDTO> deleteClient(@PathVariable Long clientId) {
+	@ResponseStatus(HttpStatus.OK)
+	public MessageDTO deleteClient(@PathVariable Long clientId) {
 		deleteClient.execute(clientId);
-		return ResponseEntity.ok(new MessageDTO("Cliente eliminado exitosamente"));
+		return new MessageDTO("Cliente eliminado exitosamente");
 	}
 }
