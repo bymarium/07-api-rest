@@ -24,10 +24,10 @@
     - [4. Acceder a la Aplicación](#4-acceder-a-la-aplicación)
     - [5. Probar la API con Postman](#5-probar-la-api-con-postman)
 
-## 🍽️ **Descripción del Proyecto**
+## 🍽️ **Descripción del Proyecto** {#descripcion-del-proyecto}
 Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
 
-## 🍽️ **Estructura del Proyecto**
+## 🍽️ **Estructura del Proyecto** {#estructura-del-proyecto}
 
 ### 📦 **1. src/main/java/com/example/restaurant/**
 Este es el paquete principal del proyecto, que contiene las siguientes carpetas clave:
