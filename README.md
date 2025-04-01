@@ -1,41 +1,136 @@
-## API REST
+# API REST - Documentación
 
-Es una interfaz de programación de aplicaciones (API) que sigue los principios de la arquitectura REST (Representational State Transfer).
+## Descripción del Proyecto
+Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para manejar datos mediante un sistema de modelos, controladores, servicios y repositorios.
 
-Es un conjunto de reglas que permite a sistemas interactuar entre sí utilizando métodos estándar del protocolo HTTP, como GET, POST, PUT, DELETE, etc.
-El término "API REST" se usa para referirse a una API que implementa parcialmente o completamente las restricciones definidas por REST.
+## Estructura del Proyecto
 
-## RESTful
+### **1. src/main/java/com/example/demo/**
+Este es el paquete principal del proyecto, que contiene las siguientes carpetas clave:
 
-Es un adjetivo que describe una API que cumple completamente con los principios de REST.
+#### **1.1 models/**
+- Contiene las clases que representan las entidades de la base de datos.
+- Cada modelo usa anotaciones de JPA (`@Entity`, `@Id`, `@GeneratedValue`, etc.) para mapear la base de datos.
 
-Una API es RESTful si sigue estrictamente los siguientes principios:
-- Arquitectura cliente-servidor: Separación entre cliente (interfaz) y servidor (datos y lógica).
+Ejemplo de modelo (`Client.java`):
+```java
+@Entity
+@Table(name = "clients")
+public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String email;
+    // Getters y setters
+}
+```
 
-- Stateless: Cada solicitud del cliente al servidor debe contener toda la información necesaria para entenderla.
+#### **1.2 controllers/**
+- Contiene las clases que manejan las solicitudes HTTP y exponen endpoints.
+- Cada controlador usa `@RestController` y `@RequestMapping` para definir rutas de la API.
 
-- Caché: Las respuestas deben ser cacheables cuando sea posible para mejorar el rendimiento.
+Ejemplo de controlador (`ClientController.java`):
+```java
+@RestController
+@RequestMapping("/clients")
+public class ClientController {
+    @Autowired
+    private ClientService clientService;
 
-- Interfaz uniforme: Uso consistente de métodos HTTP, URIs, y representaciones de recursos.
+    @GetMapping
+    public List<Client> getAllClients() {
+        return clientService.getAllClients();
+    }
 
-- Sistema en capas: Posibilidad de usar capas intermedias entre cliente y servidor.
+    @PostMapping
+    public Client createClient(@RequestBody Client client) {
+        return clientService.createClient(client);
+    }
+}
+```
 
-## A que nos referimos con Stateless
+#### **1.3 services/**
+- Contiene la lógica de negocio de la aplicación.
+- Se encarga de procesar datos y comunicarse con los repositorios.
 
-En el contexto de REST, el término stateless (sin estado) significa que cada solicitud del cliente al servidor debe ser independiente y contener toda la información necesaria para que el servidor pueda procesarla, sin depender del estado de solicitudes anteriores.
+Ejemplo de servicio (`ClientService.java`):
+```java
+@Service
+public class ClientService {
+    @Autowired
+    private ClientRepository clientRepository;
 
-## Que haremos en este repositorio...
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
+    }
 
-Vamos a estructurar un API Restful para la heladería. Usaremos Java 17 con Gradle y organizaremos el proyecto de manera que sea fácil de extender. Nos enfocaremos en el inventario, que incluirá funcionalidades para gestionar productos, como agregar, actualizar, eliminar y listar.
+    public Client createClient(Client client) {
+        return clientRepository.save(client);
+    }
+}
+```
 
-Para empezar, estructuraremos el proyecto con estas consideraciones:
+#### **1.4 repositories/**
+- Contiene las interfaces que permiten interactuar con la base de datos usando Spring Data JPA.
+- Se extiende de `JpaRepository<Tipo, ID>`.
 
-- Controladores: Gestionarán las rutas del API.
-- Servicios: Contendrán la lógica del negocio.
-- Modelos: Representarán las entidades de dominio (como "Producto").
-- Repositorios en memoria: Simularán la interacción con la base de datos, usando colecciones como Map, Set y LinkedList.
+Ejemplo de repositorio (`ClientRepository.java`):
+```java
+@Repository
+public interface ClientRepository extends JpaRepository<Client, Long> {
+}
+```
 
-Patrones de diseño:
+### **2. src/main/resources/**
+Contiene archivos de configuración y recursos estáticos:
 
-- Singleton para manejar el repositorio.
-- DTO para separar las entidades de dominio de los datos de respuesta o petición.
+- `application.properties`: Archivo donde se configuran los parámetros de conexión a la base de datos.
+
+Ejemplo de configuración:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/database_name
+spring.datasource.username=root
+spring.datasource.password=password
+```
+
+### **3. src/test/java/**
+- Contiene las pruebas unitarias y de integración del proyecto.
+
+## **Cómo Ejecutar el Proyecto**
+
+### **1. Clonar el repositorio**
+```bash
+git clone https://github.com/bymarium/07-api-rest.git
+cd 07-api-rest
+```
+
+### **2. Configurar la Base de Datos**
+- Modifica `application.properties` con los datos de tu base de datos MySQL.
+
+### **3. Construir y Ejecutar el Proyecto**
+- Usando Gradle:
+```bash
+./gradlew bootRun
+```
+- Usando Maven:
+```bash
+mvn spring-boot:run
+```
+
+### **4. Probar la API con Postman**
+Puedes probar la API importando una colección en Postman y enviando solicitudes a los siguientes endpoints:
+
+- **Obtener todos los clientes**: `GET http://localhost:8080/clients`
+- **Crear un cliente**: `POST http://localhost:8080/clients`
+```json
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com"
+}
+```
+
+---
+
+### **Conclusión**
+Este proyecto sigue la arquitectura MVC en Spring Boot, facilitando la organización del código y la escalabilidad. Si necesitas más detalles o colaboración, siéntete libre de contribuir al repositorio. 🚀
