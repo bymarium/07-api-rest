@@ -23,10 +23,10 @@
    - [4. Acceder a la Aplicación](#4-acceder-a-la-aplicación)
    - [5. Probar la API con Postman](#5-probar-la-api-con-postman)
 
-## **Descripción del Proyecto**
+## 🍽️ **Descripción del Proyecto**
 Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
 
-## **Estructura del Proyecto**
+## 🍽️ **Estructura del Proyecto**
 
 ### 📦 **1. src/main/java/com/example/restaurant/**
 Este es el paquete principal del proyecto, que contiene las siguientes carpetas clave:
@@ -274,7 +274,7 @@ Las clases en esta carpeta permiten convertir objetos DTO a entidades del modelo
 ##### 🗃️ **1.8.2 prices/**
 Esta carpeta implementa el **patrón Chain of Responsibility** para aplicar descuentos en función del tipo de cliente. Se define una jerarquía de `Handlers` que procesan las solicitudes de descuento de manera encadenada.
 
-**Ejemplo de Implementación**
+💡 **Ejemplo de Implementación**
 **Clase Base: `Handler.java`**
 ```java
 public abstract class Handler {
@@ -287,7 +287,7 @@ public abstract class Handler {
     public abstract void handlerRequest(Order order);
 }
 ```
-**Explicación:**
+⚡ **Explicación:**
 - `Handler` es una clase abstracta que define un manejador con una referencia a otro `Handler` (`nextHandler`).
 - La implementación concreta de `handlerRequest` se define en las subclases.
 
@@ -302,7 +302,7 @@ public class CommonClient extends Handler {
     }
 }
 ```
-**Explicación:**
+⚡ **Explicación:**
 - Si el cliente no es de tipo `COMMON`, la solicitud pasa al siguiente manejador.
 
 **Manejador para Clientes Frecuentes: `FrequentClient.java`**
@@ -316,15 +316,15 @@ public class FrequentClient extends Handler {
     }
 }
 ```
-**Explicación:**
+⚡ **Explicación:**
 - Si el cliente es de tipo `FREQUENT`, se aplica un ajuste al precio total del pedido.
 
-### **2. src/main/resources/**
+### 📦 **2. src/main/resources/**
 Contiene archivos de configuración y recursos estáticos:
 
 - `application.properties`: Archivo donde se configuran los parámetros de conexión a la base de datos y la configuración de JPA/Hibernate.
 
-Ejemplo de configuración:
+⚙️ **Ejemplo de configuración**:
 ```properties
 spring.application.name=restaurant
 # JPA/Hibernate configuration
@@ -336,12 +336,12 @@ spring.datasource.password=${PASSWORD}
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 ```
 
-**Recuerda configurar tus variables de entorno HOST, PORT, NAME, USER, PASSWORD con tus credenciales**
+⚠️ **Recuerda configurar tus variables de entorno HOST, PORT, NAME, USER, PASSWORD con tus credenciales**
 
-### **3. src/test/java/**
+### 📦 **3. src/test/java/**
 - Contiene las pruebas unitarias y de integración del proyecto.
 
-## **Cómo Ejecutar el Proyecto**
+## 🍽️ **Cómo Ejecutar el Proyecto**
 
 ### **1. Clonar el Repositorio**
 Clona el repositorio y accede a la carpeta del proyecto:
