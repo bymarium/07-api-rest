@@ -12,8 +12,16 @@
         - [1.6 services/](#16-services)
         - [1.7 controllers/](#17-controllers)
         - [1.8 utils/](#18-utils)
-              - [1.8.1 converters/](#181-converters)
-              - [1.8.2 prices/](#181-prices)
+            - [1.8.1 converters/](#181-converters)
+            - [1.8.2 prices/](#181-prices)
+   - [2. src/main/resources/](#2-srcmainresources)
+   - [3. src/test/java/](#3-srctestjava)
+3. [Cómo Ejecutar el Proyecto](#cómo-ejecutar-el-proyecto)
+   - [1. Clonar el Repositorio](#1-clonar-el-repositorio)
+   - [2. Configurar la Base de Datos](#2-configurar-la-base-de-datos)
+   - [3. Construir y Ejecutar el Proyecto](#3-construir-y-ejecutar-el-proyecto)
+   - [4. Acceder a la Aplicación](#4-acceder-a-la-aplicación)
+   - [5. Probar la API con Postman](#5-probar-la-api-con-postman)
 
 ## **Descripción del Proyecto**
 Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
@@ -314,52 +322,96 @@ public class FrequentClient extends Handler {
 ### **2. src/main/resources/**
 Contiene archivos de configuración y recursos estáticos:
 
-- `application.properties`: Archivo donde se configuran los parámetros de conexión a la base de datos.
+- `application.properties`: Archivo donde se configuran los parámetros de conexión a la base de datos y la configuración de JPA/Hibernate.
 
 Ejemplo de configuración:
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/database_name
-spring.datasource.username=root
-spring.datasource.password=password
+spring.application.name=restaurant
+# JPA/Hibernate configuration
+spring.jpa.hibernate.ddl-auto=update
+# MySQL connection configuration using environment variables
+spring.datasource.url=jdbc:mysql://${HOST}:${PORT}/${NAME}?createDatabaseIfNotExist=true
+spring.datasource.username=${USER}
+spring.datasource.password=${PASSWORD}
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 ```
+
+**Recuerda configurar tus variables de entorno HOST, PORT, NAME, USER, PASSWORD con tus credenciales**
 
 ### **3. src/test/java/**
 - Contiene las pruebas unitarias y de integración del proyecto.
 
 ## **Cómo Ejecutar el Proyecto**
 
-### **1. Clonar el repositorio**
+### **1. Clonar el Repositorio**
+Clona el repositorio y accede a la carpeta del proyecto:
 ```bash
 git clone https://github.com/bymarium/07-api-rest.git
 cd 07-api-rest
 ```
 
 ### **2. Configurar la Base de Datos**
-- Modifica `application.properties` con los datos de tu base de datos MySQL.
+- Asegúrate de tener MySQL instalado y en ejecución.
+- Modifica el archivo `application.properties` ubicado en `src/main/resources/` con las credenciales y datos de tu base de datos.
+
+Ejemplo:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/nombre_base_datos
+spring.datasource.username=usuario
+spring.datasource.password=contraseña
+```
 
 ### **3. Construir y Ejecutar el Proyecto**
-- Usando Gradle:
+Este proyecto utiliza **Gradle** por defecto, pero también puedes ejecutarlo con **Maven** si lo prefieres.
+
+#### **Usando Gradle** (recomendado)
 ```bash
 ./gradlew bootRun
 ```
-- Usando Maven:
+Si usas Windows:
+```bash
+gradlew.bat bootRun
+```
+
+#### **Usando Maven**
 ```bash
 mvn spring-boot:run
 ```
 
-### **4. Probar la API con Postman**
+### **4. Acceder a la Aplicación**
+Una vez que la aplicación esté en ejecución, puedes acceder a la API en:
+```
+http://localhost:8080
+```
+La aplicación usa Swagger para la documentación de la API, puedes verificar los endpoints en:
+```
+http://localhost:8080/swagger-ui.html
+```
+
+### **5. Probar la API con Postman**
 Puedes probar la API importando una colección en Postman y enviando solicitudes a los siguientes endpoints:
 
-- **Obtener todos los clientes**: `GET http://localhost:8080/clients`
-- **Crear un cliente**: `POST http://localhost:8080/clients`
+- **Obtener todos los clientes**: `GET http://localhost:8080/api/clients`
+- **Obtener un cliente**: `GET http://localhost:8080/api/clients/{id}`
+- **Crear un cliente**: `POST http://localhost:8080/api/clients`
 ```json
 {
-  "name": "John Doe",
+  "name": "John",
+  "lastName": "Doe",
   "email": "johndoe@example.com"
 }
 ```
+- **Actualizar un cliente**: `PUT http://localhost:8080/api/clients/{id}`
+```json
+{
+  "name": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com"
+}
+```
+- **Eliminar un cliente**: `PUT http://localhost:8080/api/clients{id}`
 
----
+
 
 ### **Conclusión**
-Este proyecto sigue la arquitectura MVC en Spring Boot, facilitando la organización del código y la escalabilidad. Además, implementa patrones de diseño para mejorar la mantenibilidad y flexibilidad. Si necesitas más detalles o colaboración, siéntete libre de contribuir al repositorio. 🚀
+Este proyecto sigue la arquitectura MVC en Spring Boot, facilitando la organización del código y la escalabilidad. Además, implementa patrones de diseño para mejorar la mantenibilidad y flexibilidad. Si necesitas más detalles o colaboración, siéntete libre de contribuir al repositorio. 
