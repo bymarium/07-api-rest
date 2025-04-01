@@ -13,8 +13,8 @@ public class SwaggerConfig {
 		return new OpenAPI()
 			.info(
 				new Info()
-					.title("Api de Inventario de heladeria")
-					.description("Documentacion interactiva de la API de inventario")
+					.title("Api de administracion de restaurante")
+					.description("Documentacion interactiva de la API de restaurante")
 					.version("1.0.0")
 					.contact(new Contact()
 						.name("Equipo de desarrollo")

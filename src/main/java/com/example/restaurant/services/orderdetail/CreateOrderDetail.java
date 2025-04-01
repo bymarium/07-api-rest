@@ -28,6 +28,8 @@ public class CreateOrderDetail {
 			OrderDetail orderDetail = OrderDetailConverter.convertDtoToEntity(orderDetailDTO);
 			Dish dish = dishRepository.findById(orderDetailDTO.getDishId()).orElseThrow(() -> new RuntimeException("Plato con id " + orderDetailDTO.getDishId() + " no encontrado"));
 
+			orderDetail.setDish(dish);
+
 			Order order = new Order();
 			order.setId(orderId);
 			orderDetail.setOrder(order);

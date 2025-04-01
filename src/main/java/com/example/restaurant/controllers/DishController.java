@@ -8,7 +8,9 @@ import com.example.restaurant.services.dish.DeleteDish;
 import com.example.restaurant.services.dish.GetAllDishes;
 import com.example.restaurant.services.dish.GetDish;
 import com.example.restaurant.services.dish.UpdateDish;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/dishes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DishController {
 	private final CreateDish createDish;
 	private final GetDish getDish;

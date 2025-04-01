@@ -9,6 +9,7 @@ import com.example.restaurant.services.menu.GetAllMenu;
 import com.example.restaurant.services.menu.GetMenu;
 import com.example.restaurant.services.menu.UpdateMenu;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/menus")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MenuController {
 	private final CreateMenu createMenu;
 	private final GetMenu getMenu;
