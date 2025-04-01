@@ -28,10 +28,10 @@ Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una 
 
 ## **Estructura del Proyecto**
 
-### **1. src/main/java/com/example/restaurant/**
+### 📁**1. src/main/java/com/example/restaurant/**
 Este es el paquete principal del proyecto, que contiene las siguientes carpetas clave:
 
-#### **1.1 config/**
+#### 📂**1.1 config/**
 - Contiene clases de configuración para la aplicación.
 - Aquí se pueden definir configuraciones de seguridad, CORS y otros aspectos globales del proyecto.
 - **SwaggerConfig.java**: Configura **Swagger** para generar documentación automática de la API. Swagger proporciona una interfaz gráfica para visualizar y probar los endpoints de la API.
