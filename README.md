@@ -1,33 +1,9 @@
 # API REST - Documentación
 
-## ✨ **ÍNDICE** ✨
-
- 1. [Descripción del Proyecto](#descripción-del-proyecto)
- 2. [Estructura del Proyecto](#estructura-del-proyecto)
-     - [1. src/main/java/com/example/restaurant/](#1-srcmainjavacomexamplerestaurant)
-         - [1.1 config/](#11-config)
-         - [1.2 constants/](#12-constants)
-         - [1.3 models/](#13-models)
-         - [1.4 dtos/](#14-dtos)
-         - [1.5 repositories/](#15-repositories)
-         - [1.6 services/](#16-services)
-         - [1.7 controllers/](#17-controllers)
-         - [1.8 utils/](#18-utils)
-             - [1.8.1 converters/](#181-converters)
-             - [1.8.2 prices/](#181-prices)
-    - [2. src/main/resources/](#2-srcmainresources)
-    - [3. src/test/java/](#3-srctestjava)
- 3. [Cómo Ejecutar el Proyecto](#cómo-ejecutar-el-proyecto)
-    - [1. Clonar el Repositorio](#1-clonar-el-repositorio)
-    - [2. Configurar la Base de Datos](#2-configurar-la-base-de-datos)
-    - [3. Construir y Ejecutar el Proyecto](#3-construir-y-ejecutar-el-proyecto)
-    - [4. Acceder a la Aplicación](#4-acceder-a-la-aplicación)
-    - [5. Probar la API con Postman](#5-probar-la-api-con-postman)
-
-## 🍽️ Descripción del Proyecto {#descripcion-del-proyecto}
+## 🍽️ **Descripción del Proyecto**
 Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
 
-## 🍽️ **Estructura del Proyecto** {#estructura-del-proyecto}
+## 🍽️ **Estructura del Proyecto**
 
 ### 📦 **1. src/main/java/com/example/restaurant/**
 Este es el paquete principal del proyecto, que contiene las siguientes carpetas clave:
