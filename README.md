@@ -1,9 +1,19 @@
 # API REST - Documentación
 
-## Descripción del Proyecto
-Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para manejar datos mediante un sistema de modelos, controladores, servicios y repositorios.
+## **Índice**
+1. [Descripción del Proyecto](#descripción-del-proyecto)
+2. [Estructura del Proyecto](#estructura-del-proyecto)
+    - [1. src/main/java/com/example/restaurant/](#1-srcmainjavacomexamplerestaurant)
+        - [1.1 config/](#11-config)
+        - [1.2 constants/](#12-constants)
+        - [1.3 models/](#13-models)
+        - [1.4 dtos/](#14-dtos)
+        - [1.5 repositories/](#15-repositories)
 
-## Estructura del Proyecto
+## **Descripción del Proyecto**
+Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
+
+## **Estructura del Proyecto**
 
 ### **1. src/main/java/com/example/restaurant/**
 Este es el paquete principal del proyecto, que contiene las siguientes carpetas clave:
@@ -14,14 +24,14 @@ Este es el paquete principal del proyecto, que contiene las siguientes carpetas 
 - **SwaggerConfig.java**: Configura **Swagger** para generar documentación automática de la API. Swagger proporciona una interfaz gráfica para visualizar y probar los endpoints de la API.
   - Puedes acceder a la documentación interactiva de la API a través de Swagger UI en `http://localhost:8080/swagger-ui/`.
 
-Para ver el código completo de la configuración de Swagger, consulta el archivo [SwaggerConfig.java en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/config/SwaggerConfig.java).
+  Para ver el código completo de la configuración de Swagger, consulta el archivo [SwaggerConfig.java en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/config/SwaggerConfig.java).
 
 #### **1.2 constants/**
 - Almacena constantes globales utilizadas en toda la aplicación.
 - Útil para evitar valores "hardcoded" en el código.
 - **Type.java**: Este archivo define un **enumerador** (`enum`) que contiene tres tipos: `COMMON`, `FREQUENT`, y `POPULAR`. Cada uno tiene un nombre asociado que se puede obtener mediante el método `getName()`. Estos valores se utilizan para categorizar ciertos elementos dentro de la aplicación.
 
-Para ver el código completo del enumerador, consulta el archivo [Type.java en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/constants/Type.java).
+  Para ver el código completo del enumerador, consulta el archivo [Type.java en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/constants/Type.java).
 
 #### **1.3 models/**
 - Contiene las clases que representan las entidades de la base de datos.
@@ -45,7 +55,7 @@ A continuación, se describen algunos de los modelos más importantes:
 5. **OrderDetail.java**: Representa los detalles de un pedido, es decir, un plato específico y la cantidad que fue ordenada. Contiene el precio unitario y el subtotal del plato.
    - [Ver código en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/models/OrderDetail.java)
 
-Ejemplo de un modelo (`Client.java`):
+**Ejemplo de un modelo (`Client.java`)**:
 ```java
 @Entity
 @Table(name = "clients")
@@ -73,12 +83,11 @@ public class Client {
     }
 }
 ```
-
 #### **1.4 dtos/**
 - Contiene clases para la transferencia de datos (**DTOs - Data Transfer Objects**).
 - Los DTOs se utilizan para estructurar la información enviada y recibida en los endpoints de la API REST.
 - Estos objetos permiten separar la lógica de negocio de la representación de los datos en las respuestas y peticiones, y se usan para mapear los datos de las solicitudes HTTP a objetos Java.
-  
+
 ##### Los siguientes DTOs están disponibles:
 
 1. **ClientDTO.java**: Representa un cliente con los campos `name`, `lastName` y `email`. Es utilizado para realizar las peticiones HTTP al crear o actualizar un cliente.
@@ -97,33 +106,34 @@ public class Client {
    - [Ver código en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/dtos/OrderDetailDTO.java)
 
 ##### **MessageDTO.java**: Este DTO se utiliza para estructurar las respuestas de la API. Es utilizado para enviar mensajes de respuesta junto con los detalles de los resultados de una operación.
-- Contiene un mensaje (`message`) que describe el resultado de la operación y un campo opcional (`details`) que puede contener información adicional sobre el resultado.
-- Se utiliza para devolver respuestas estandarizadas en las peticiones HTTP, como éxito, error, o mensajes de validación.
-
-    **Ejemplo de `MessageDTO`**:
-    ```java
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public class MessageDTO {
-       private String message;
-       private Object details;
-    
-       public MessageDTO(String message, Object details) {
-           this.message = message;
-           this.details = details;
-       }
-    
-       public MessageDTO(String message) {
-           this.message = message;
-       }
-    }
+  - Contiene un mensaje (`message`) que describe el resultado de la operación y un campo opcional (`details`) que puede contener información adicional sobre el resultado.
+  - Se utiliza para devolver respuestas estandarizadas en las peticiones HTTP, como éxito, error, o mensajes de validación.
+  
+  **Ejemplo de `MessageDTO`**:
+  ```java
+  @Getter
+  @Setter
+  @NoArgsConstructor
+  public class MessageDTO {
+     private String message;
+     private Object details;
+  
+     public MessageDTO(String message, Object details) {
+         this.message = message;
+         this.details = details;
+     }
+  
+     public MessageDTO(String message) {
+         this.message = message;
+     }
+  }
+  ```
 
 #### **1.5 repositories/**
 - Contiene las interfaces que permiten interactuar con la base de datos usando Spring Data JPA.
 - Se extiende de `JpaRepository<Tipo, ID>`.
 
-#### Archivos en la carpeta `repositories`:
+##### Archivos en la carpeta `repositories`:
 
 1. **IClientRepository.java**:
    - Proporciona los métodos necesarios para interactuar con la entidad `Client` (Cliente).
@@ -134,7 +144,7 @@ public class Client {
    - [Ver código en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/repositories/IDishRepository.java)
      
 3. **IMenuRepository.java**:
-   - Proporciona los métodos necesarios para interactuar con la entidad `Menu` (Menu).
+   - Proporciona los métodos necesarios para interactuar con la entidad `Menu` (Menú).
    - [Ver código en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/repositories/IMenuRepository.java)
      
 4. **IOrderDetailRepository.java**:
@@ -147,17 +157,19 @@ public class Client {
     public interface IOrderDetailRepository extends JpaRepository<OrderDetail, Long> {
         List<OrderDetail> findByDishId(Long dishId);
     }
-    
+    ```
+
 5. **IOrderRepository.java**:
-   - Proporciona los métodos necesarios para interactuar con la entidad `Order` (Order).
+   - Proporciona los métodos necesarios para interactuar con la entidad `Order` (Pedido).
    - Incluye una consulta personalizada `countByClient_Id(Long clientId)` para contar la cantidad de pedidos de un cliente específico.
    - [Ver código en GitHub](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/repositories/IOrderRepository.java)
-     
-   **Ejemplo de `IOrderDetailRepository`**:
+
+   **Ejemplo de `IOrderRepository`**:
     ```java
     public interface IOrderRepository extends JpaRepository<Order, Long> {
         Long countByClient_Id(Long clientId);
     }
+    ```
 
 #### **1.7 services/**
 - Contiene la lógica de negocio de la aplicación.
