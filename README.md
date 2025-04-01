@@ -9,6 +9,11 @@
         - [1.3 models/](#13-models)
         - [1.4 dtos/](#14-dtos)
         - [1.5 repositories/](#15-repositories)
+        - [1.6 services/](#16-services)
+        - [1.7 controllers/](#17-controllers)
+        - [1.8 utils/](#18-utils)
+              - [1.8.1 converters/](#181-converters)
+              - [1.8.2 prices/](#181-prices)
 
 ## **Descripción del Proyecto**
 Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
@@ -233,7 +238,7 @@ El controlador `GlobalExceptionHandler` maneja excepciones globales en la aplica
   
 Este controlador garantiza que las excepciones no controladas sean manejadas de manera centralizada, proporcionando respuestas consistentes para los errores en toda la API.
 
-##### **Detalles de otros controladores**
+**Detalles de otros controladores: **
 - [DishController.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/DishController.java): Maneja las operaciones CRUD para los platos del restaurante.
 - [MenuController.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/MenuController.java): Gestiona las operaciones CRUD para los menús del restaurante.
 - [OrderController.java](https://github.com/bymarium/07-api-rest/blob/main/src/main/java/com/example/restaurant/controllers/OrderController.java): Gestiona las operaciones CRUD para los pedidos del restaurante.
