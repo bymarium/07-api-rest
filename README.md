@@ -1,27 +1,27 @@
 # API REST - Documentación
 
-## **Índice**
-1. [Descripción del Proyecto](#descripción-del-proyecto)
-2. [Estructura del Proyecto](#estructura-del-proyecto)
-    - [1. src/main/java/com/example/restaurant/](#1-srcmainjavacomexamplerestaurant)
-        - [1.1 config/](#11-config)
-        - [1.2 constants/](#12-constants)
-        - [1.3 models/](#13-models)
-        - [1.4 dtos/](#14-dtos)
-        - [1.5 repositories/](#15-repositories)
-        - [1.6 services/](#16-services)
-        - [1.7 controllers/](#17-controllers)
-        - [1.8 utils/](#18-utils)
-            - [1.8.1 converters/](#181-converters)
-            - [1.8.2 prices/](#181-prices)
-   - [2. src/main/resources/](#2-srcmainresources)
-   - [3. src/test/java/](#3-srctestjava)
-3. [Cómo Ejecutar el Proyecto](#cómo-ejecutar-el-proyecto)
-   - [1. Clonar el Repositorio](#1-clonar-el-repositorio)
-   - [2. Configurar la Base de Datos](#2-configurar-la-base-de-datos)
-   - [3. Construir y Ejecutar el Proyecto](#3-construir-y-ejecutar-el-proyecto)
-   - [4. Acceder a la Aplicación](#4-acceder-a-la-aplicación)
-   - [5. Probar la API con Postman](#5-probar-la-api-con-postman)
+## ✨ **ÍNDICE** ✨
+🍽️ [Descripción del Proyecto](#descripción-del-proyecto)
+🍽️ [Estructura del Proyecto](#estructura-del-proyecto)
+    📦 [1. src/main/java/com/example/restaurant/](#1-srcmainjavacomexamplerestaurant)
+        📁 [1.1 config/](#11-config)
+        📁 [1.2 constants/](#12-constants)
+        📁 [1.3 models/](#13-models)
+        📁 [1.4 dtos/](#14-dtos)
+        📁 [1.5 repositories/](#15-repositories)
+        📁 [1.6 services/](#16-services)
+        📁 [1.7 controllers/](#17-controllers)
+        📁 [1.8 utils/](#18-utils)
+            🗃️ [1.8.1 converters/](#181-converters)
+            🗃️ [1.8.2 prices/](#181-prices)
+    📦 [2. src/main/resources/](#2-srcmainresources)
+    📦 [3. src/test/java/](#3-srctestjava)
+🍽️ [Cómo Ejecutar el Proyecto](#cómo-ejecutar-el-proyecto)
+   📍 [1. Clonar el Repositorio](#1-clonar-el-repositorio)
+   📍 [2. Configurar la Base de Datos](#2-configurar-la-base-de-datos)
+   📍 [3. Construir y Ejecutar el Proyecto](#3-construir-y-ejecutar-el-proyecto)
+   📍 [4. Acceder a la Aplicación](#4-acceder-a-la-aplicación)
+   📍 [5. Probar la API con Postman](#5-probar-la-api-con-postman)
 
 ## 🍽️ **Descripción del Proyecto**
 Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
@@ -343,14 +343,14 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 ## 🍽️ **Cómo Ejecutar el Proyecto**
 
-### **1. Clonar el Repositorio**
+### 📍 **1. Clonar el Repositorio**
 Clona el repositorio y accede a la carpeta del proyecto:
 ```bash
 git clone https://github.com/bymarium/07-api-rest.git
 cd 07-api-rest
 ```
 
-### **2. Configurar la Base de Datos**
+### 📍 **2. Configurar la Base de Datos**
 - Asegúrate de tener MySQL instalado y en ejecución.
 - Modifica el archivo `application.properties` ubicado en `src/main/resources/` con las credenciales y datos de tu base de datos.
 
@@ -361,7 +361,7 @@ spring.datasource.username=usuario
 spring.datasource.password=contraseña
 ```
 
-### **3. Construir y Ejecutar el Proyecto**
+### 📍 **3. Construir y Ejecutar el Proyecto**
 Este proyecto utiliza **Gradle** por defecto, pero también puedes ejecutarlo con **Maven** si lo prefieres.
 
 #### **Usando Gradle** (recomendado)
@@ -378,7 +378,7 @@ gradlew.bat bootRun
 mvn spring-boot:run
 ```
 
-### **4. Acceder a la Aplicación**
+### 📍 **4. Acceder a la Aplicación**
 Una vez que la aplicación esté en ejecución, puedes acceder a la API en:
 ```
 http://localhost:8080
@@ -388,7 +388,7 @@ La aplicación usa Swagger para la documentación de la API, puedes verificar lo
 http://localhost:8080/swagger-ui.html
 ```
 
-### **5. Probar la API con Postman**
+### 📍 **5. Probar la API con Postman**
 Puedes probar la API importando una colección en Postman y enviando solicitudes a los siguientes endpoints:
 
 - **Obtener todos los clientes**: `GET http://localhost:8080/api/clients`
