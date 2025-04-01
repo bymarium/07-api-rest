@@ -24,7 +24,7 @@
     - [4. Acceder a la Aplicación](#4-acceder-a-la-aplicación)
     - [5. Probar la API con Postman](#5-probar-la-api-con-postman)
 
-## 🍽️ **Descripción del Proyecto** {#descripcion-del-proyecto}
+## 🍽️ Descripción del Proyecto {#descripcion-del-proyecto}
 Este proyecto es una API REST desarrollada con **Spring Boot**. Proporciona una estructura organizada para gestionar datos mediante un sistema de modelos, controladores, servicios y repositorios.
 
 ## 🍽️ **Estructura del Proyecto** {#estructura-del-proyecto}
