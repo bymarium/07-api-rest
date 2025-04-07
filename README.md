@@ -164,27 +164,118 @@ public class Client {
 #### 📁 **1.6 services/**
 - Contiene la lógica de negocio de la aplicación.
 - Se organiza en subcarpetas según la entidad a la que pertenece cada servicio.
-- Implementa los principios **SOLID** y varios **patrones de diseño** como:
-  - **Command Pattern**: Se usa para encapsular solicitudes como objetos, permitiendo la parametrización de clientes con diferentes solicitudes.
-  - **Observer Pattern**: Se utiliza para reaccionar a cambios en los datos sin modificar directamente las clases afectadas.
-  - **Chain of Responsibility**: Implementado para manejar flujos de validación y procesamiento de datos mediante una cadena de responsabilidades.
+- Implementa los principios **SOLID** y varios **patrones de diseño** que se detallan a continuación:
 
-💡 **Ejemplo de servicio (`ClientService.java`)**:
+#### 📁 **1.6.1 interfaces/**
+Esta carpeta contiene las interfaces que definen los contratos para los diferentes patrones de diseño implementados en los servicios:
+
+- 📄 **ICommand.java**: Define el contrato básico para el patrón Command sin parámetros.
+  ```java
+  public interface ICommand<T> {
+      T execute();
+  }
+  ```
+
+- 📄 **ICommandParametrized.java**: Extiende el patrón Command para aceptar un parámetro.
+  ```java
+  public interface ICommandParametrized<T, R> {
+      T execute(R parameter);
+  }
+  ```
+
+- 📄 **ICommandModification.java**: Especialización del patrón Command para operaciones de modificación que requieren un ID y un valor.
+  ```java
+  public interface ICommandModification<T, S> {
+      T execute(Long id, S value);
+  }
+  ```
+
+- 📄 **IObserver.java**: Define el contrato para el patrón Observer, permitiendo a los objetos recibir notificaciones de cambios.
+  ```java
+  public interface IObserver {
+      void update(Order order);
+  }
+  ```
+
+#### 📁 **1.6.2 client/**
+Implementa servicios relacionados con la entidad Cliente utilizando el patrón Command:
+
+- 📄 **CreateClient.java**: Implementa `ICommandParametrized` para crear un nuevo cliente.
+- 📄 **GetClient.java**: Implementa `ICommandParametrized` para obtener un cliente por ID.
+- 📄 **GetAllClients.java**: Implementa `ICommand` para obtener todos los clientes.
+- 📄 **UpdateClient.java**: Implementa `ICommandModification` para actualizar un cliente existente.
+- 📄 **DeleteClient.java**: Implementa `ICommandParametrized` para eliminar un cliente.
+- 📄 **UpdateTypeClient.java**: Implementa `IObserver` para actualizar el tipo de cliente basado en la cantidad de pedidos.
+
+💡 **Ejemplo de implementación (`CreateClient.java`)**:
 ```java
 @Service
-public class ClientService {
-    @Autowired
-    private ClientRepository clientRepository;
+public class CreateClient implements ICommandParametrized<Client, ClientDTO> {
+    private final IClientRepository clientRepository;
 
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
+    @Autowired
+    public CreateClient(IClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
-    public Client createClient(Client client) {
+    @Override
+    public Client execute(ClientDTO clientDTO) {
+        Client client = ClientConverter.convertDtoToEntity(clientDTO);
         return clientRepository.save(client);
     }
 }
 ```
+
+#### 📁 **1.6.3 dish/**
+Implementa servicios relacionados con la entidad Plato:
+
+- 📄 **CreateDish.java**, **GetDish.java**, **GetAllDishes.java**, **UpdateDish.java**, **DeleteDish.java**: Implementan los patrones Command para operaciones CRUD.
+- 📄 **UpdateTypeDish.java**: Implementa `IObserver` para actualizar el tipo de plato basado en la cantidad de veces que ha sido ordenado.
+
+#### 📁 **1.6.4 menu/**
+Implementa servicios relacionados con la entidad Menú utilizando el patrón Command para operaciones CRUD:
+
+- 📄 **CreateMenu.java**, **GetMenu.java**, **GetAllMenu.java**, **UpdateMenu.java**, **DeleteMenu.java**
+
+#### 📁 **1.6.5 order/**
+Implementa servicios relacionados con la entidad Pedido, combinando los patrones Command y Observer:
+
+- 📄 **Observable.java**: Clase abstracta que implementa la funcionalidad básica del patrón Observer.
+  ```java
+  public abstract class Observable {
+      private List<IObserver> observers = new ArrayList<>();
+
+      public void addObserver(IObserver observer) {
+          observers.add(observer);
+      }
+
+      public void notifyObservers(Order order) {
+          for (IObserver observer : observers) {
+              observer.update(order);
+          }
+      }
+  }
+  ```
+
+- 📄 **CreateOrder.java**: Extiende `Observable` e implementa `ICommandParametrized` para crear pedidos y notificar a los observadores. También utiliza el patrón Chain of Responsibility para aplicar descuentos.
+
+#### 📁 **1.6.6 orderdetail/**
+Implementa servicios relacionados con los detalles de pedidos:
+
+- 📄 **CreateOrderDetail.java**: Crea detalles de pedidos.
+- 📄 **UpdateOrderDetail.java**: Actualiza detalles de pedidos existentes.
+
+### **Patrones de Diseño Implementados**
+
+#### 🔄 **Command Pattern**
+Se usa para encapsular solicitudes como objetos, permitiendo la parametrización de clientes con diferentes solicitudes. Cada operación CRUD se implementa como un comando separado, lo que facilita la extensibilidad y el mantenimiento del código.
+
+#### 👁️ **Observer Pattern**
+Se utiliza para reaccionar a cambios en los datos sin modificar directamente las clases afectadas. En este proyecto, cuando se crea un pedido (`CreateOrder`), se notifica a los observadores (`UpdateTypeClient` y `UpdateTypeDish`) para que actualicen el tipo de cliente y plato según corresponda.
+
+#### ⛓️ **Chain of Responsibility**
+Implementado para manejar flujos de validación y procesamiento de datos mediante una cadena de responsabilidades. Se utiliza en la aplicación de descuentos según el tipo de cliente, donde cada manejador (`CommonClient`, `FrequentClient`) decide si procesa la solicitud o la pasa al siguiente manejador en la cadena.
+
 
 #### 📁 **1.7 Controllers**
 - Contiene las clases que manejan las solicitudes HTTP y exponen los endpoints de la API.
@@ -391,4 +482,4 @@ Puedes probar la API importando una colección en Postman y enviando solicitudes
 
 
 ### **Conclusión**
-Este proyecto sigue la arquitectura MVC en Spring Boot, facilitando la organización del código y la escalabilidad. Además, implementa patrones de diseño para mejorar la mantenibilidad y flexibilidad. Si necesitas más detalles o colaboración, siéntete libre de contribuir al repositorio. 
+Este proyecto sigue la arquitectura MVC en Spring Boot, facilitando la organización del código y la escalabilidad. Además, implementa patrones de diseño para mejorar la mantenibilidad y flexibilidad. Si necesitas más detalles o colaboración, siéntete libre de contribuir al repositorio.
