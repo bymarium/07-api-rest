@@ -7,36 +7,36 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CommonClientTest {
+class BronzeClientTest {
 
 	@Test
 	void handlerRequest() {
 		Order order = new Order(1L, 120f);
 		Client client = new Client(1L, "Mariana", "Usuga", "bymar@gmail.com");
-		client.setUserType(Type.FREQUENT.getName());
+		client.setUserType(Type.BRONZE.getName());
 		order.setClient(client);
 
-		CommonClient clientCommon = new CommonClient();
+		BronzeClient clientCommon = new BronzeClient();
 		clientCommon.setNextHandler(null);
 
 		clientCommon.handlerRequest(order);
 
-		assertEquals(Type.FREQUENT.getName(), order.getClient().getUserType());
+		assertEquals(Type.BRONZE.getName(), order.getClient().getUserType());
 	}
 
 	@Test
 	void handlerRequestYes() {
 		Order order = new Order(1L, 120f);
 		Client client = new Client(1L, "Mariana", "Usuga", "bymar@gmail.com");
-		client.setUserType(Type.COMMON.getName());
+		client.setUserType(Type.BRONZE.getName());
 		order.setClient(client);
 
-		CommonClient clientCommon = new CommonClient();
-		FrequentClient frequentClient = new FrequentClient();
-		clientCommon.setNextHandler(frequentClient);
+		BronzeClient clientCommon = new BronzeClient();
+		SilverClient silverClient = new SilverClient();
+		clientCommon.setNextHandler(silverClient);
 
 		clientCommon.handlerRequest(order);
 
-		assertEquals(Type.COMMON.getName(), order.getClient().getUserType());
+		assertEquals(Type.BRONZE.getName(), order.getClient().getUserType());
 	}
 }

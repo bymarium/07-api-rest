@@ -24,7 +24,7 @@ public class Client{
 	private String name;
 	private String lastName;
 	private String email;
-	private String userType = Type.COMMON.getName();
+	private String userType = Type.BRONZE.getName();
 	private Float adjust = 1f;
 
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)

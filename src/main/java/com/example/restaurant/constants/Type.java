@@ -1,8 +1,11 @@
 package com.example.restaurant.constants;
 
 public enum Type {
+	BRONZE("Bronce"),
+	SILVER("Plata"),
+	GOLD("Oro"),
+	DIAMOND("Diamante"),
 	COMMON("Comun"),
-	FREQUENT("Frecuente"),
 	POPULAR("Popular");
 
 	private String name;

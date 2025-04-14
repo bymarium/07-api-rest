@@ -11,8 +11,10 @@ import com.example.restaurant.services.dish.UpdateTypeDish;
 import com.example.restaurant.services.interfaces.ICommandParametrized;
 import com.example.restaurant.services.orderdetail.CreateOrderDetail;
 import com.example.restaurant.utils.Converters.OrderConverter;
-import com.example.restaurant.utils.prices.CommonClient;
-import com.example.restaurant.utils.prices.FrequentClient;
+import com.example.restaurant.utils.prices.BronzeClient;
+import com.example.restaurant.utils.prices.DiamondClient;
+import com.example.restaurant.utils.prices.GoldClient;
+import com.example.restaurant.utils.prices.SilverClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,13 +42,17 @@ public class CreateOrder extends Observable implements ICommandParametrized<Orde
 		List<OrderDetail> orderDetails = createOrderDetail.execute(orderDTO.getOrderDetails(), newOrder.getId());
 		Float totalPrice = (float) orderDetails.stream().mapToDouble(OrderDetail::getSubTotal).sum();
 
-		CommonClient commonClient = new CommonClient();
-		FrequentClient frequentClient = new FrequentClient();
-		commonClient.setNextHandler(frequentClient);
+		BronzeClient bronzeClient = new BronzeClient();
+		SilverClient silverClient = new SilverClient();
+		GoldClient goldClient = new GoldClient();
+		DiamondClient diamondClient = new DiamondClient();
+		bronzeClient.setNextHandler(silverClient);
+		silverClient.setNextHandler(goldClient);
+		goldClient.setNextHandler(diamondClient);
 
 		newOrder.setTotalPrice(totalPrice);
 
-		commonClient.handlerRequest(newOrder);
+		bronzeClient.handlerRequest(newOrder);
 
 		orderRepository.save(newOrder);
 		newOrder.setOrderDetails(orderDetails);

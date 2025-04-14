@@ -7,18 +7,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FrequentClientTest {
+class SilverClientTest {
 
 	@Test
 	void handlerRequest() {
 		Order order = new Order(1L, 120f);
 		Client client = new Client(1L, "Mariana", "Usuga", "bymar@gmail.com");
-		client.setUserType(Type.COMMON.getName());
+		client.setUserType(Type.BRONZE.getName());
 		order.setClient(client);
 
-		FrequentClient frequentClient = new FrequentClient();
-		frequentClient.handlerRequest(order);
+		SilverClient silverClient = new SilverClient();
+		silverClient.handlerRequest(order);
 
-		assertEquals(Type.COMMON.getName(), order.getClient().getUserType());
+		assertEquals(Type.BRONZE.getName(), order.getClient().getUserType());
 	}
 }
