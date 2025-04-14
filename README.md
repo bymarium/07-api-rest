@@ -275,7 +275,7 @@ Se utiliza para reaccionar a cambios en los datos sin modificar directamente las
 
 #### ⛓️ **Chain of Responsibility**
 Implementado para manejar flujos de validación y procesamiento de datos mediante una cadena de responsabilidades. Se utiliza en la aplicación de descuentos según el tipo de cliente, donde cada manejador (`CommonClient`, `FrequentClient`) decide si procesa la solicitud o la pasa al siguiente manejador en la cadena.
-```
+
 
 #### 📁 **1.7 Controllers**
 - Contiene las clases que manejan las solicitudes HTTP y exponen los endpoints de la API.
