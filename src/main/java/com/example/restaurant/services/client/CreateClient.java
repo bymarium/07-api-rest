@@ -19,6 +19,10 @@ public class CreateClient implements ICommandParametrized<Client, ClientDTO> {
 
 	@Override
 	public Client execute(ClientDTO clientDTO) {
+		if (clientRepository.existsByEmail(clientDTO.getEmail())) {
+			throw new IllegalArgumentException("Cliente ya existe en el sistema");
+		}
+
 		Client client = ClientConverter.convertDtoToEntity(clientDTO);
 		return clientRepository.save(client);
 	}

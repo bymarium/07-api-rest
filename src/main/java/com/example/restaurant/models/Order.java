@@ -26,6 +26,7 @@ public class Order {
 	private Long id;
 	private LocalDate date;
 	private Float totalPrice;
+	private Boolean active;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")

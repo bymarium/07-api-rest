@@ -15,4 +15,10 @@ public class GlobalExceptionHandler {
     public MessageDTO handleRuntimeException(RuntimeException ex) {
         return new MessageDTO(ex.getMessage());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public MessageDTO handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new MessageDTO(ex.getMessage());
+    }
 }

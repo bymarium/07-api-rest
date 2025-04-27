@@ -28,6 +28,7 @@ public class UpdateOrder implements ICommandModification<Order, OrderDTO> {
 	@Override
 	public Order execute(Long orderId, OrderDTO orderDTO) {
 		return orderRepository.findById(orderId).map(o -> {
+			o.setActive(orderDTO.getActive());
 			orderDetailRepository.deleteAll(o.getOrderDetails());
 			o.getOrderDetails().clear();
 			List<OrderDetail> updatedDetails = updateOrderDetail.execute(orderDTO.getOrderDetails(), o.getId());

@@ -19,6 +19,15 @@ public class UpdateDish implements ICommandModification<Dish, DishDTO> {
 
 	@Override
 	public Dish execute(Long dishId, DishDTO dishDTO) {
+		if (dishRepository.existsByNameAndDescriptionAndPriceAndMenuId(
+						dishDTO.getName(),
+						dishDTO.getDescription(),
+						dishDTO.getPrice(),
+						dishDTO.getMenuId()
+		)) {
+			throw new IllegalArgumentException("Plato ya existe en el sistema");
+		}
+
 		return dishRepository.findById(dishId).map(d -> {
 			d.setName(dishDTO.getName());
 			d.setDescription(dishDTO.getDescription());

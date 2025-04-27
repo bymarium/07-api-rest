@@ -53,7 +53,7 @@ class CreateOrderTest {
 	@Test
 	void execute() {
 		Client client = new Client(1L, "Mariana", "Usuga", "bymar@gmail.com");
-		client.setUserType(Type.FREQUENT.getName());
+		client.setUserType(Type.BRONZE.getName());
 		Dish dish = new Dish(1L, "Pollo apanado", "Pollo con papas", 28f);
 
 		OrderDetailDTO orderDetailDTO1 = new OrderDetailDTO();

@@ -38,6 +38,7 @@ public class CreateOrder extends Observable implements ICommandParametrized<Orde
 		Order order = OrderConverter.convertDtoToEntity(orderDTO);
 		Client client = clientRepository.findById(orderDTO.getClientId()).orElseThrow(() -> new RuntimeException("Cliente con id " + orderDTO.getClientId() + " no encontrado"));
 		order.setClient(client);
+		order.setActive(true);
 		Order newOrder = orderRepository.save(order);
 		List<OrderDetail> orderDetails = createOrderDetail.execute(orderDTO.getOrderDetails(), newOrder.getId());
 		Float totalPrice = (float) orderDetails.stream().mapToDouble(OrderDetail::getSubTotal).sum();

@@ -19,6 +19,15 @@ public class CreateDish implements ICommandParametrized<Dish, DishDTO> {
 
 	@Override
 	public Dish execute(DishDTO dishDTO) {
+		if (dishRepository.existsByNameAndDescriptionAndPriceAndMenuId(
+						dishDTO.getName(),
+						dishDTO.getDescription(),
+						dishDTO.getPrice(),
+						dishDTO.getMenuId()
+		)) {
+			throw new IllegalArgumentException("Plato ya existe en el sistema");
+		}
+
 		Dish dish = DishConverter.convertDtoToEntity(dishDTO);
 		return dishRepository.save(dish);
 	}

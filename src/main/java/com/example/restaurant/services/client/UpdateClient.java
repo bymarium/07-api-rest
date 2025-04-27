@@ -18,6 +18,10 @@ public class UpdateClient implements ICommandModification<Client, ClientDTO> {
 
 	@Override
 	public Client execute(Long clientId, ClientDTO clientDTO) {
+		if (clientRepository.existsByEmail(clientDTO.getEmail())) {
+			throw new IllegalArgumentException("Cliente ya existe en el sistema");
+		}
+
 		return clientRepository.findById(clientId).map(c -> {
 			c.setName(clientDTO.getName());
 			c.setLastName(clientDTO.getLastName());

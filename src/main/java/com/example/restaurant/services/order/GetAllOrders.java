@@ -18,6 +18,6 @@ public class GetAllOrders implements ICommand<List<Order>> {
 
 	@Override
 	public List<Order> execute() {
-		return orderRepository.findAll();
+		return orderRepository.findAllByOrderByActiveDescDateAsc();
 	}
 }

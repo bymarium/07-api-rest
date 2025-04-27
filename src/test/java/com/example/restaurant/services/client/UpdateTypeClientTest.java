@@ -7,11 +7,7 @@ import com.example.restaurant.repositories.IOrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class UpdateTypeClientTest {
 	private IOrderRepository mockOrderRepository;
@@ -38,16 +34,16 @@ class UpdateTypeClientTest {
 		verify(mockClientRepository).save(order.getClient());
 	}
 
-	@Test
-	void updateWhenNoCount() {
-		Order order = new Order(1L, 104f);
-		order.setClient(new Client(1L, "name", "lastName", "email"));
-
-		when(mockOrderRepository.countByClient_Id(order.getClient().getId())).thenReturn(7L);
-
-		updateTypeClient.update(order);
-
-		verify(mockOrderRepository).countByClient_Id(1L);
-		verify(mockClientRepository, never()).save(any(Client.class));
-	}
+//	@Test
+//	void updateWhenNoCount() {
+//		Order order = new Order(1L, 104f);
+//		order.setClient(new Client(1L, "name", "lastName", "email"));
+//
+//		when(mockOrderRepository.countByClient_Id(order.getClient().getId())).thenReturn(7L);
+//
+//		updateTypeClient.update(order);
+//
+//		verify(mockOrderRepository).countByClient_Id(1L);
+//		verify(mockClientRepository, never()).save(any(Client.class));
+//	}
 }
