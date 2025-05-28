@@ -12,5 +12,5 @@ import java.util.List;
 public class OrderDTO {
 	private Long clientId;
 	private List<OrderDetailDTO> orderDetails;
-	private Boolean active;
+	private String state;
 }

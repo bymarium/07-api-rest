@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface IOrderRepository extends JpaRepository<Order, Long> {
 	Long countByClient_Id(Long clientId);
-	List<Order> findAllByOrderByActiveDescDateAsc();
 }

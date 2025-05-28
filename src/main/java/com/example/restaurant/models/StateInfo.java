@@ -1,6 +1,19 @@
 package com.example.restaurant.models;
 
-public class State {
-  private String state = com.example.restaurant.constants.State.CREATED.getName();
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Embeddable
+public class StateInfo {
+  private String state;
+  private LocalDateTime at;
 }

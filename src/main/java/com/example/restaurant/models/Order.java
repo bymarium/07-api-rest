@@ -1,15 +1,7 @@
 package com.example.restaurant.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +18,8 @@ public class Order {
 	private Long id;
 	private LocalDate date;
 	private Float totalPrice;
-	private Boolean active;
+	@Embedded
+	private StateInfo stateInfo;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")

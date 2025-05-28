@@ -1,8 +1,10 @@
 package com.example.restaurant.services.order;
 
+import com.example.restaurant.constants.State;
 import com.example.restaurant.dtos.OrderDTO;
 import com.example.restaurant.models.Order;
 import com.example.restaurant.models.OrderDetail;
+import com.example.restaurant.models.StateInfo;
 import com.example.restaurant.repositories.IOrderDetailRepository;
 import com.example.restaurant.repositories.IOrderRepository;
 import com.example.restaurant.services.interfaces.ICommandModification;
@@ -10,6 +12,7 @@ import com.example.restaurant.services.orderdetail.UpdateOrderDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,7 +31,11 @@ public class UpdateOrder implements ICommandModification<Order, OrderDTO> {
 	@Override
 	public Order execute(Long orderId, OrderDTO orderDTO) {
 		return orderRepository.findById(orderId).map(o -> {
-			o.setActive(orderDTO.getActive());
+			if (State.isValidState(orderDTO.getState())) {
+				StateInfo stateInfo = new StateInfo(State.valueOf(orderDTO.getState()).getName(), LocalDateTime.now());
+				o.setStateInfo(stateInfo);
+			}
+
 			orderDetailRepository.deleteAll(o.getOrderDetails());
 			o.getOrderDetails().clear();
 			List<OrderDetail> updatedDetails = updateOrderDetail.execute(orderDTO.getOrderDetails(), o.getId());

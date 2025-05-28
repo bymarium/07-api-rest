@@ -1,9 +1,11 @@
 package com.example.restaurant.services.order;
 
+import com.example.restaurant.constants.State;
 import com.example.restaurant.dtos.OrderDTO;
 import com.example.restaurant.models.Client;
 import com.example.restaurant.models.Order;
 import com.example.restaurant.models.OrderDetail;
+import com.example.restaurant.models.StateInfo;
 import com.example.restaurant.repositories.IClientRepository;
 import com.example.restaurant.repositories.IOrderRepository;
 import com.example.restaurant.services.client.UpdateTypeClient;
@@ -17,6 +19,7 @@ import com.example.restaurant.utils.prices.GoldClient;
 import com.example.restaurant.utils.prices.SilverClient;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,9 +39,9 @@ public class CreateOrder extends Observable implements ICommandParametrized<Orde
 	@Override
 	public Order execute(OrderDTO orderDTO) {
 		Order order = OrderConverter.convertDtoToEntity(orderDTO);
+		order.setStateInfo(new StateInfo(State.CREATED.getName(), LocalDateTime.now()));
 		Client client = clientRepository.findById(orderDTO.getClientId()).orElseThrow(() -> new RuntimeException("Cliente con id " + orderDTO.getClientId() + " no encontrado"));
 		order.setClient(client);
-		order.setActive(true);
 		Order newOrder = orderRepository.save(order);
 		List<OrderDetail> orderDetails = createOrderDetail.execute(orderDTO.getOrderDetails(), newOrder.getId());
 		Float totalPrice = (float) orderDetails.stream().mapToDouble(OrderDetail::getSubTotal).sum();
